@@ -11,10 +11,7 @@ $species_id = $_GET['species_id'] ?? '';
 $gender     = $_GET['gender'] ?? '';
 $sort       = $_GET['sort'] ?? '';
 
-$sql = "SELECT a.*, s.name AS species_name
-        FROM animals a
-        LEFT JOIN species s ON s.id = a.species_id
-        WHERE a.deleted_at IS NULL";
+$sql = "SELECT a.*, s.name AS species_name FROM animals a LEFT JOIN species s ON s.id = a.species_id WHERE a.deleted_at IS NULL";
 $params = [];
 
 if (is_numeric($species_id)) {
