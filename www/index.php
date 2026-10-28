@@ -1,4 +1,5 @@
 <?php
+session_start();
 require 'db.php';
 
 $species_id = isset($_GET['species_id']) ? $_GET['species_id'] : '';

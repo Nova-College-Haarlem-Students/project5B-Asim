@@ -1,4 +1,5 @@
 <?php
+session_start();
 require 'db.php';
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
@@ -39,7 +40,38 @@ include 'header.php';
         <p><strong>Chipnummer:</strong> <?php echo $animal['chip_number'] ? htmlspecialchars($animal['chip_number']) : 'Geen chip'; ?></p>
         <p><strong>Beschrijving:</strong> <?php echo htmlspecialchars($animal['description']); ?></p>
         <p class="prijs">&euro; <?php echo htmlspecialchars($animal['price']); ?></p>
+
+        <?php if (isset($_SESSION['user_id'])): ?>
+            <button id="aanvraagBtn" class="knop" data-animal-id="<?php echo $animal['id']; ?>">Aanvraag indienen</button>
+            <p id="aanvraagMelding"></p>
+        <?php else: ?>
+            <p><a href="login.php">Log in</a> om een adoptie-aanvraag in te dienen.</p>
+        <?php endif; ?>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.querySelector('#aanvraagBtn');
+    var melding = document.querySelector('#aanvraagMelding');
+
+    if (btn) {
+        btn.addEventListener('click', function() {
+            fetch('adoptie_aanvraag_process.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ animal_id: btn.dataset.animalId })
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(data) {
+                melding.textContent = data.message;
+                if (data.success) {
+                    btn.disabled = true;
+                }
+            });
+        });
+    }
+});
+</script>
 
 <?php include 'footer.php'; ?>

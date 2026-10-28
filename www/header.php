@@ -12,5 +12,15 @@
 <body>
     <header>
         <a href="index.php" class="nav-logo">&#128062; Pootjes & Co</a>
+        <nav class="nav-links">
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <a href="mijn_aanvragen.php">Mijn aanvragen</a>
+                <a href="profiel.php">Mijn profiel</a>
+                <a href="logout.php">Uitloggen</a>
+            <?php else: ?>
+                <a href="login.php">Inloggen</a>
+                <a href="register.php">Registreren</a>
+            <?php endif; ?>
+        </nav>
     </header>
     <main>

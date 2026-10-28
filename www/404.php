@@ -1,4 +1,5 @@
 <?php
+session_start();
 http_response_code(404);
 $paginatitel = "Niet gevonden";
 include 'header.php';
