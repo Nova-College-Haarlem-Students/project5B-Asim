@@ -74,15 +74,16 @@ include 'header.php';
 
 <div class="grid">
     <?php foreach ($animals as $animal): ?>
-        <div class="card">
-            <img src="<?php echo htmlspecialchars($animal['photo']); ?>" alt="<?php echo htmlspecialchars($animal['name']); ?>">
+        <a href="animal_detail.php?id=<?php echo $animal['id']; ?>" class="card">
+            <div class="card-foto">
+                <img src="<?php echo htmlspecialchars($animal['photo']); ?>" alt="<?php echo htmlspecialchars($animal['name']); ?>">
+            </div>
             <div class="card-info">
                 <p class="titel"><?php echo htmlspecialchars($animal['name']); ?></p>
                 <p><?php echo htmlspecialchars($animal['species_name']); ?> &middot; <?php echo htmlspecialchars($animal['breed']); ?></p>
-                <p>&euro; <?php echo htmlspecialchars($animal['price']); ?></p>
-                <a href="animal_detail.php?id=<?php echo $animal['id']; ?>" class="knop">Bekijk details</a>
+                <p class="prijs">&euro; <?php echo htmlspecialchars($animal['price']); ?></p>
             </div>
-        </div>
+        </a>
     <?php endforeach; ?>
 </div>
 

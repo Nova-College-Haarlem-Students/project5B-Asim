@@ -24,6 +24,8 @@ $paginatitel = $animal['name'];
 include 'header.php';
 ?>
 
+<a href="index.php" class="terug">&larr; Terug naar overzicht</a>
+
 <div class="detail">
     <img src="<?php echo htmlspecialchars($animal['photo']); ?>" alt="<?php echo htmlspecialchars($animal['name']); ?>">
 
@@ -35,9 +37,7 @@ include 'header.php';
         <p><strong>Geboortedatum:</strong> <?php echo $animal['birth_date'] ? htmlspecialchars($animal['birth_date']) : 'Onbekend'; ?></p>
         <p><strong>Chipnummer:</strong> <?php echo $animal['chip_number'] ? htmlspecialchars($animal['chip_number']) : 'Geen chip'; ?></p>
         <p><strong>Beschrijving:</strong> <?php echo htmlspecialchars($animal['description']); ?></p>
-        <p><strong>Adoptieprijs:</strong> &euro; <?php echo htmlspecialchars($animal['price']); ?></p>
-
-        <a href="index.php" class="terug">&larr; Terug naar overzicht</a>
+        <p class="prijs">&euro; <?php echo htmlspecialchars($animal['price']); ?></p>
     </div>
 </div>
 
