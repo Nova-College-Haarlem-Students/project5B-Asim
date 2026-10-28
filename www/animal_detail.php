@@ -6,12 +6,9 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     exit;
 }
 
-$id = (int) $_GET['id'];
-
 try {
-    $stmt = $conn->prepare("SELECT a.*, s.name AS species_name FROM animals a LEFT JOIN species s
-     ON s.id = a.species_id WHERE a.id = :id AND a.deleted_at IS NULL");
-    $stmt->execute(['id' => $id]);
+    $stmt = $conn->prepare("SELECT animals.*, species.name AS species_name FROM animals LEFT JOIN species ON species.id = animals.species_id WHERE animals.id = :id AND animals.deleted_at IS NULL");
+    $stmt->execute(['id' => $_GET['id']]);
     $animal = $stmt->fetch(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     header('Location: 500.php');
@@ -23,19 +20,25 @@ if (!$animal) {
     exit;
 }
 
-require 'header.php';
+$paginatitel = $animal['name'];
+include 'header.php';
 ?>
 
-<h2><?= htmlspecialchars($animal['name']) ?></h2>
-<img src="<?= htmlspecialchars($animal['photo']) ?>" alt="<?= htmlspecialchars($animal['name']) ?>">
-<p>Soort: <?= htmlspecialchars($animal['species_name']) ?></p>
-<p>Ras: <?= htmlspecialchars($animal['breed']) ?></p>
-<p>Geslacht: <?= htmlspecialchars($animal['gender']) ?></p>
-<p>Geboortedatum: <?= htmlspecialchars($animal['birth_date'] ?? 'Onbekend') ?></p>
-<p>Chipnummer: <?= htmlspecialchars($animal['chip_number'] ?? 'Geen chip') ?></p>
-<p>Beschrijving: <?= htmlspecialchars($animal['description']) ?></p>
-<p>Adoptieprijs: &euro; <?= htmlspecialchars($animal['price']) ?></p>
+<div class="detail">
+    <img src="<?php echo htmlspecialchars($animal['photo']); ?>" alt="<?php echo htmlspecialchars($animal['name']); ?>">
 
-<a href="index.php">Terug naar overzicht</a>
+    <div class="detail-info">
+        <h1><?php echo htmlspecialchars($animal['name']); ?></h1>
+        <p><strong>Soort:</strong> <?php echo htmlspecialchars($animal['species_name']); ?></p>
+        <p><strong>Ras:</strong> <?php echo htmlspecialchars($animal['breed']); ?></p>
+        <p><strong>Geslacht:</strong> <?php echo htmlspecialchars($animal['gender']); ?></p>
+        <p><strong>Geboortedatum:</strong> <?php echo $animal['birth_date'] ? htmlspecialchars($animal['birth_date']) : 'Onbekend'; ?></p>
+        <p><strong>Chipnummer:</strong> <?php echo $animal['chip_number'] ? htmlspecialchars($animal['chip_number']) : 'Geen chip'; ?></p>
+        <p><strong>Beschrijving:</strong> <?php echo htmlspecialchars($animal['description']); ?></p>
+        <p><strong>Adoptieprijs:</strong> &euro; <?php echo htmlspecialchars($animal['price']); ?></p>
 
-<?php require 'footer.php'; ?>
+        <a href="index.php" class="terug">&larr; Terug naar overzicht</a>
+    </div>
+</div>
+
+<?php include 'footer.php'; ?>

@@ -1,53 +1,76 @@
+/* Pootjes & Co - basisstijl */
+:root {
+    --achtergrond: #f3f6f9;
+    --wit: #ffffff;
+    --tekst: #1f2933;
+    --tekst-zacht: #617083;
+    --lijn: #d9e2ec;
+    --accent: #2e7d32;
+    --accent-donker: #1b5e20;
+    --fout: #b83232;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    color: #333;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--achtergrond);
+    color: var(--tekst);
+    line-height: 1.5;
 }
 
+main { max-width: 1100px; margin: 0 auto; padding: 30px 20px; }
+h1 { font-size: 28px; margin-bottom: 15px; }
+p { margin-bottom: 10px; }
+a { color: var(--accent); }
+
+/* navigatie */
 header {
-    background: #2e7d32;
-    padding: 15px 20px;
+    background: var(--wit);
+    border-bottom: 1px solid var(--lijn);
+    padding: 14px 30px;
 }
+.nav-logo { font-size: 20px; font-weight: bold; text-decoration: none; color: var(--accent); }
 
-header a {
-    color: #fff;
-    text-decoration: none;
-}
+/* introblok */
+.intro { background: var(--accent); color: var(--wit); padding: 35px 30px; border-radius: 6px; margin-bottom: 25px; }
+.intro h1 { margin-bottom: 5px; }
+.intro p { margin: 0; }
 
-main {
-    max-width: 1000px;
-    margin: 20px auto;
-    padding: 0 20px;
-}
+/* filteren */
+.zoekbalk { display: flex; gap: 8px; margin-bottom: 25px; flex-wrap: wrap; }
+.zoekbalk select { flex: 1; min-width: 150px; }
 
-form select, form button {
-    padding: 6px;
-    margin-right: 10px;
-    margin-bottom: 20px;
-}
+/* kaarten */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; }
+.card { background: var(--wit); border: 1px solid var(--lijn); border-radius: 6px; overflow: hidden; }
+.card:hover { border-color: var(--accent); }
+.card img { width: 100%; height: 180px; object-fit: cover; display: block; background: var(--achtergrond); }
+.card-info { padding: 14px; }
+.card-info .titel { font-weight: bold; margin-bottom: 4px; }
+.card-info p { color: var(--tekst-zacht); font-size: 14px; margin-bottom: 10px; }
+.card-info .knop { display: inline-block; padding: 6px 14px; font-size: 14px; }
 
-.dieren-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
+/* detailpagina */
+.detail { display: flex; flex-wrap: wrap; gap: 30px; background: var(--wit); border: 1px solid var(--lijn); border-radius: 6px; padding: 25px; }
+.detail img { width: 100%; max-width: 380px; height: 320px; object-fit: cover; background: var(--achtergrond); border-radius: 6px; }
+.detail-info { flex: 1; min-width: 260px; }
+.terug { display: inline-block; margin-top: 15px; }
 
-.dier-kaart {
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    padding: 10px;
-    width: 220px;
-}
+/* formulieren */
+select { padding: 9px 10px; border: 1px solid var(--lijn); border-radius: 4px; font-size: 15px; background: var(--wit); }
 
-.dier-kaart img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 4px;
-}
+/* knoppen */
+button, .knop { display: inline-block; padding: 9px 18px; background: var(--accent); color: var(--wit); border: none; border-radius: 4px; font-size: 15px; cursor: pointer; text-decoration: none; }
+button:hover, .knop:hover { background: var(--accent-donker); }
 
-footer {
-    text-align: center;
-    padding: 15px;
-    color: #777;
+/* meldingen */
+.melding { padding: 10px 14px; border-radius: 4px; margin-bottom: 15px; background: #e6f4ea; color: var(--accent-donker); }
+.melding.fout { background: #f8e5e5; color: var(--fout); }
+
+.voet { text-align: center; color: var(--tekst-zacht); font-size: 13px; padding: 20px; }
+
+@media (max-width: 700px) {
+    main { padding: 20px 15px; }
+    .zoekbalk { flex-direction: column; }
 }

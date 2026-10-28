@@ -1,10 +1,13 @@
 <?php
 http_response_code(404);
-require 'header.php';
+$paginatitel = "Niet gevonden";
+include 'header.php';
 ?>
 
-<h2>404 - Pagina niet gevonden</h2>
-<p>Dit dier of deze pagina bestaat niet (meer).</p>
-<a href="index.php">Terug naar overzicht</a>
+<div class="melding fout">
+    <h1>404 - Pagina niet gevonden</h1>
+    <p>Dit dier of deze pagina bestaat niet (meer).</p>
+    <a href="index.php" class="knop">Terug naar overzicht</a>
+</div>
 
-<?php require 'footer.php'; ?>
+<?php include 'footer.php'; ?>

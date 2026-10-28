@@ -1,39 +1,33 @@
 <?php
 require 'db.php';
 
-// Keuzelijst soorten, zonder dubbele waardes
-$stmt = $conn->prepare("SELECT DISTINCT s.id, s.name FROM species s ORDER BY s.name");
-$stmt->execute();
-$soorten = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$species_id = isset($_GET['species_id']) ? $_GET['species_id'] : '';
+$gender     = isset($_GET['gender']) ? $_GET['gender'] : '';
+$sort       = isset($_GET['sort']) ? $_GET['sort'] : '';
 
-// Filters en sortering uit de URL
-$species_id = $_GET['species_id'] ?? '';
-$gender     = $_GET['gender'] ?? '';
-$sort       = $_GET['sort'] ?? '';
-
-$sql = "SELECT a.*, s.name AS species_name FROM animals a LEFT JOIN species s ON s.id = a.species_id WHERE a.deleted_at IS NULL";
+$query = "SELECT animals.*, species.name AS species_name FROM animals LEFT JOIN species ON species.id = animals.species_id WHERE animals.deleted_at IS NULL";
 $params = [];
 
 if (is_numeric($species_id)) {
-    $sql .= " AND a.species_id = :species_id";
+    $query .= " AND animals.species_id = :species_id";
     $params['species_id'] = $species_id;
 }
 
-if ($gender === 'man' || $gender === 'vrouw') {
-    $sql .= " AND a.gender = :gender";
+if ($gender == 'man' || $gender == 'vrouw') {
+    $query .= " AND animals.gender = :gender";
     $params['gender'] = $gender;
 }
 
-if ($sort === 'price_asc') {
-    $sql .= " ORDER BY a.price ASC";
-} elseif ($sort === 'price_desc') {
-    $sql .= " ORDER BY a.price DESC";
+if ($sort == 'prijs_laag') {
+    $query .= " ORDER BY animals.price ASC";
+} elseif ($sort == 'prijs_hoog') {
+    $query .= " ORDER BY animals.price DESC";
 } else {
-    $sql .= " ORDER BY a.name ASC";
+    $query .= " ORDER BY animals.name";
 }
 
 try {
-    $stmt = $conn->prepare($sql);
+    $stmt = $conn->prepare($query);
     $stmt->execute($params);
     $animals = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -41,50 +35,55 @@ try {
     exit;
 }
 
-require 'header.php';
+$stmt = $conn->prepare("SELECT DISTINCT species.id, species.name FROM species ORDER BY species.name");
+$stmt->execute();
+$soorten = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$paginatitel = "Dieren";
+include 'header.php';
 ?>
 
-<h2>Onze dieren</h2>
+<div class="intro">
+    <h1>Onze dieren</h1>
+    <p>Bekijk alle dieren die nog een nieuw thuis zoeken.</p>
+</div>
 
-<form method="GET" action="index.php">
+<form action="index.php" method="get" class="zoekbalk">
     <select name="species_id">
         <option value="">Alle soorten</option>
         <?php foreach ($soorten as $soort): ?>
-            <option value="<?= $soort['id'] ?>" <?= ((string) $species_id === (string) $soort['id']) ? 'selected' : '' ?>>
-                <?= htmlspecialchars($soort['name']) ?>
-            </option>
+            <option value="<?php echo $soort['id']; ?>" <?php if ($species_id == $soort['id']) echo 'selected'; ?>><?php echo htmlspecialchars($soort['name']); ?></option>
         <?php endforeach; ?>
     </select>
-
     <select name="gender">
         <option value="">Alle geslachten</option>
-        <option value="man" <?= $gender === 'man' ? 'selected' : '' ?>>Man</option>
-        <option value="vrouw" <?= $gender === 'vrouw' ? 'selected' : '' ?>>Vrouw</option>
+        <option value="man" <?php if ($gender == 'man') echo 'selected'; ?>>Man</option>
+        <option value="vrouw" <?php if ($gender == 'vrouw') echo 'selected'; ?>>Vrouw</option>
     </select>
-
     <select name="sort">
-        <option value="name" <?= $sort === 'name' ? 'selected' : '' ?>>Naam</option>
-        <option value="price_asc" <?= $sort === 'price_asc' ? 'selected' : '' ?>>Prijs laag - hoog</option>
-        <option value="price_desc" <?= $sort === 'price_desc' ? 'selected' : '' ?>>Prijs hoog - laag</option>
+        <option value="">Naam</option>
+        <option value="prijs_laag" <?php if ($sort == 'prijs_laag') echo 'selected'; ?>>Prijs laag - hoog</option>
+        <option value="prijs_hoog" <?php if ($sort == 'prijs_hoog') echo 'selected'; ?>>Prijs hoog - laag</option>
     </select>
-
     <button type="submit">Filteren</button>
 </form>
 
-<div class="dieren-grid">
+<?php if (count($animals) == 0): ?>
+    <p class="melding">Geen dieren gevonden.</p>
+<?php endif; ?>
+
+<div class="grid">
     <?php foreach ($animals as $animal): ?>
-        <div class="dier-kaart">
-            <img src="<?= htmlspecialchars($animal['photo']) ?>" alt="<?= htmlspecialchars($animal['name']) ?>">
-            <h3><?= htmlspecialchars($animal['name']) ?></h3>
-            <p><?= htmlspecialchars($animal['species_name']) ?> - <?= htmlspecialchars($animal['breed']) ?></p>
-            <p>&euro; <?= htmlspecialchars($animal['price']) ?></p>
-            <a href="animal_detail.php?id=<?= $animal['id'] ?>">Bekijk</a>
+        <div class="card">
+            <img src="<?php echo htmlspecialchars($animal['photo']); ?>" alt="<?php echo htmlspecialchars($animal['name']); ?>">
+            <div class="card-info">
+                <p class="titel"><?php echo htmlspecialchars($animal['name']); ?></p>
+                <p><?php echo htmlspecialchars($animal['species_name']); ?> &middot; <?php echo htmlspecialchars($animal['breed']); ?></p>
+                <p>&euro; <?php echo htmlspecialchars($animal['price']); ?></p>
+                <a href="animal_detail.php?id=<?php echo $animal['id']; ?>" class="knop">Bekijk details</a>
+            </div>
         </div>
     <?php endforeach; ?>
-
-    <?php if (empty($animals)): ?>
-        <p>Geen dieren gevonden.</p>
-    <?php endif; ?>
 </div>
 
-<?php require 'footer.php'; ?>
+<?php include 'footer.php'; ?>
