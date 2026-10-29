@@ -14,6 +14,15 @@
         <a href="index.php" class="nav-logo">&#128062; Pootjes & Co</a>
         <nav class="nav-links">
             <?php if (isset($_SESSION['user_id'])): ?>
+                <?php if (in_array($_SESSION['role'], ['medewerker', 'admin'])): ?>
+                    <a href="dieren_beheer.php">Dieren beheren</a>
+                    <a href="aanvragen_beheer.php">Aanvragen</a>
+                    <a href="dieren_zonder_aanvragen.php">Zonder aanvragen</a>
+                <?php endif; ?>
+                <?php if ($_SESSION['role'] == 'admin'): ?>
+                    <a href="statistieken.php">Statistieken</a>
+                    <a href="logboek.php">Logboek</a>
+                <?php endif; ?>
                 <a href="mijn_aanvragen.php">Mijn aanvragen</a>
                 <a href="profiel.php">Mijn profiel</a>
                 <a href="logout.php">Uitloggen</a>

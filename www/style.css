@@ -22,6 +22,7 @@ body {
 
 main { max-width: 1100px; margin: 0 auto; padding: 35px 20px 60px; }
 h1 { font-family: 'Quicksand', sans-serif; font-size: 30px; margin-bottom: 15px; }
+h2 { font-family: 'Quicksand', sans-serif; font-size: 20px; margin: 25px 0 12px; }
 p { margin-bottom: 10px; }
 a { color: var(--accent); }
 
@@ -146,6 +147,8 @@ select, input {
 .tabel { width: 100%; border-collapse: collapse; background: var(--wit); border: 1px solid var(--lijn); border-radius: 12px; overflow: hidden; }
 .tabel th, .tabel td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--lijn); }
 .tabel th { background: var(--achtergrond); font-size: 14px; }
+.tabel td a { margin-right: 10px; }
+.tabel td form { display: flex; gap: 8px; align-items: center; }
 
 button, .knop {
     display: inline-block;

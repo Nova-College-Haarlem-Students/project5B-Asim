@@ -51,8 +51,8 @@ include 'header.php';
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    var btn = document.querySelector('#aanvraagBtn');
-    var melding = document.querySelector('#aanvraagMelding');
+    let btn = document.querySelector('#aanvraagBtn');
+    let melding = document.querySelector('#aanvraagMelding');
 
     if (btn) {
         btn.addEventListener('click', function() {

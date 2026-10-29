@@ -23,7 +23,7 @@ include 'header.php';
     </div>
     <div class="veld">
         <label for="phone">Telefoonnummer</label>
-        <input type="text" name="phone" id="phone" value="<?php echo htmlspecialchars($user['phone']); ?>">
+        <input type="text" name="phone" id="phone" value="<?php echo htmlspecialchars($user['phone'] ? $user['phone'] : ''); ?>">
     </div>
     <button type="submit">Opslaan</button>
 </form>
