@@ -2,12 +2,7 @@
 require 'klant_check.php';
 require 'db.php';
 
-$stmt = $conn->prepare("SELECT adoption_requests.*, animals.name AS animal_name, species.name AS species_name
-                         FROM adoption_requests
-                         LEFT JOIN animals ON animals.id = adoption_requests.animal_id
-                         LEFT JOIN species ON species.id = animals.species_id
-                         WHERE adoption_requests.user_id = :user_id
-                         ORDER BY adoption_requests.request_date DESC");
+$stmt = $conn->prepare("SELECT adoption_requests.*, animals.name AS animal_name, species.name AS species_name FROM adoption_requests LEFT JOIN animals ON animals.id = adoption_requests.animal_id LEFT JOIN species ON species.id = animals.species_id WHERE adoption_requests.user_id = :user_id ORDER BY adoption_requests.request_date DESC");
 $stmt->execute(['user_id' => $_SESSION['user_id']]);
 $aanvragen = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

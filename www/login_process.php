@@ -17,10 +17,7 @@ if (empty($password)) {
     exit;
 }
 
-$stmt = $conn->prepare("SELECT users.*, roles.name AS role
-                         FROM users
-                         LEFT JOIN roles ON users.role_id = roles.id
-                         WHERE users.email = :email");
+$stmt = $conn->prepare("SELECT users.*, roles.name AS role FROM users LEFT JOIN roles ON users.role_id = roles.id WHERE users.email = :email");
 $stmt->execute(['email' => $email]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 

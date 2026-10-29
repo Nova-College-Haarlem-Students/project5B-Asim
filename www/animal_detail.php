@@ -8,8 +8,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 }
 
 try {
-    $stmt = $conn->prepare("SELECT animals.*, species.name AS species_name FROM animals
-     LEFT JOIN species ON species.id = animals.species_id WHERE animals.id = :id AND animals.deleted_at IS NULL");
+    $stmt = $conn->prepare("SELECT animals.*, species.name AS species_name FROM animals LEFT JOIN species ON species.id = animals.species_id WHERE animals.id = :id AND animals.deleted_at IS NULL");
     $stmt->execute(['id' => $_GET['id']]);
     $animal = $stmt->fetch(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
