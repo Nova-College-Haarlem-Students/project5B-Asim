@@ -2,16 +2,17 @@
 session_start();
 require 'db.php';
 
-if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-    header("Location: login.php");
+$email = $_POST['email'];
+$password = $_POST['password'];
+
+if (empty($email)) {
+    echo "E-mailadres is verplicht";
+    echo "<br/><a href='login.php'>Terug</a>";
     exit;
 }
 
-$email    = isset($_POST['email']) ? $_POST['email'] : '';
-$password = isset($_POST['password']) ? $_POST['password'] : '';
-
-if (empty($email) || empty($password)) {
-    echo "Vul e-mailadres en wachtwoord in";
+if (empty($password)) {
+    echo "Wachtwoord is verplicht";
     echo "<br/><a href='login.php'>Terug</a>";
     exit;
 }

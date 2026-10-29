@@ -17,16 +17,31 @@ include 'header.php';
 
 <h1>Mijn aanvragen</h1>
 
+<div class="tabel-wrap">
+    <table class="tabel">
+        <thead>
+            <tr>
+                <th>Dier</th>
+                <th>Soort</th>
+                <th>Status</th>
+                <th>Datum</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($aanvragen as $aanvraag): ?>
+            <tr>
+                <td><?php echo htmlspecialchars($aanvraag['animal_name']); ?></td>
+                <td><?php echo htmlspecialchars($aanvraag['species_name']); ?></td>
+                <td><?php echo htmlspecialchars($aanvraag['status']); ?></td>
+                <td><?php echo htmlspecialchars($aanvraag['request_date']); ?></td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+
 <?php if (count($aanvragen) == 0): ?>
     <p class="melding">Je hebt nog geen aanvragen ingediend.</p>
 <?php endif; ?>
-
-<?php foreach ($aanvragen as $aanvraag): ?>
-    <div class="aanvraag">
-        <p class="titel"><?php echo htmlspecialchars($aanvraag['animal_name']); ?> (<?php echo htmlspecialchars($aanvraag['species_name']); ?>)</p>
-        <p>Status: <?php echo htmlspecialchars($aanvraag['status']); ?></p>
-        <p>Datum: <?php echo htmlspecialchars($aanvraag['request_date']); ?></p>
-    </div>
-<?php endforeach; ?>
 
 <?php include 'footer.php'; ?>

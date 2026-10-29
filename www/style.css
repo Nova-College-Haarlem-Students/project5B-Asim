@@ -141,9 +141,12 @@ select, input {
 .veld label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px; }
 .veld input { width: 100%; }
 
-/* mijn aanvragen */
-.aanvraag { background: var(--wit); border: 1px solid var(--lijn); border-radius: 12px; padding: 16px 20px; margin-bottom: 14px; }
-.aanvraag .titel { font-family: 'Quicksand', sans-serif; font-weight: 700; margin-bottom: 4px; }
+/* tabellen */
+.tabel-wrap { overflow-x: auto; }
+.tabel { width: 100%; border-collapse: collapse; background: var(--wit); border: 1px solid var(--lijn); border-radius: 12px; overflow: hidden; }
+.tabel th, .tabel td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--lijn); }
+.tabel th { background: var(--achtergrond); font-size: 14px; }
+
 button, .knop {
     display: inline-block;
     padding: 10px 20px;
